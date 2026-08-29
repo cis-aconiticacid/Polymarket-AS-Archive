@@ -35,7 +35,7 @@ if state.is_warmed_up():
         # q.bid, q.ask — None on close-out / boundary one-sided cases
 ```
 
-## Why this is non-trivial
+## Notes
 
 Polymarket gives you bounded prices in `(0, 1)`, depth-aggregated book snapshots (no L3), maker/taker-tagged trades, and resolution events that drag the price to `{0, 1}`. AS assumes unbounded arithmetic Brownian motion, constant volatility, and Poisson order arrivals at any distance from mid. You can't just plug `(bestBid+bestAsk)/2` and rolling-RV into the AS formulas.
 
@@ -62,7 +62,4 @@ See **`ENG_NOTE.md`** for the full parameter-by-parameter mapping, the logit-tra
 - `γ` is not estimable — user-supplied.
 - No jump model. News-event spikes are partially handled by winsorizing σ̂; better strategies should explicitly pause around scheduled events.
 - WSS subscriber requires `pip install websockets`. Synthetic demo + tests don't need it.
-
-## What this DOESN'T solve
-
-A rigorous bounded-diffusion treatment (Jacobi process etc.) that re-derives AS from scratch for prediction markets. That's a research project, not engineering.
+- This doesn't give a rigorous bounded-diffusion treatment (Jacobi process etc.) that re-derives AS from scratch for prediction markets. That's a research project, not engineering.
